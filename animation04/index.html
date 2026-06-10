@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/styles/reset.css">
+    <link rel="stylesheet" href="./assets/styles/animation04.css">
+    <script src="./assets/js/animation04.js"defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="ja">
+
+    <!-- スクロールしたらヘッダーの背景が出てくるアニメーション -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const header = document.querySelector(".header");
+            const hero = document.querySelector(".hero");
+
+            if (!header) return;
+
+            const handleScroll = () => {
+                const threshold = hero ? hero.offsetHeight * 0.2 : 80;
+
+                if (window.scrollY > threshold) {
+                    header.classList.add("is-scrolled");
+                } else {
+                    header.classList.remove("is-scrolled");
+                }
+            };
+
+            handleScroll();
+            window.addEventListener("scroll", handleScroll, { passive: true });
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const header = document.querySelector(".header");
+            const nav = document.querySelector(".nav--drawer");
+            const menuToggle = document.querySelector(".menu-toggle");
+            const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+            if (!header) return;
+
+            const closeMenu = () => {
+                if (!nav || !menuToggle) return;
+                menuToggle.classList.remove("is-open");
+                nav.classList.remove("is-open", "is-closing");
+                document.body.classList.remove("menu-open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "メニューを開く");
+            };
+
+            const headerObserver = new IntersectionObserver(
+                ([entry]) => {
+                    if (mobileQuery.matches) return;
+
+                    const headerVisible = entry.isIntersecting;
+
+                    header.classList.toggle("is-compact", !headerVisible);
+                    header.classList.toggle("is-scrolled", !headerVisible);
+
+                    if (headerVisible) {
+                        closeMenu();
+                    }
+                },
+                {
+                    threshold: 0
+                }
+            );
+
+            headerObserver.observe(header);
+        });
+    </script>
+
+    <!-- スクロールして要素が画面内に入ったらフェードイン表示するアニメーション -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const revealTargets = document.querySelectorAll(
+                ".section-title, .section-lead, .about-card, .menu-item, .info-block, .reserve-desc, .reserve-actions, .access-address, .access-station, .gallery-note, .menu-note, .about-summary"
+            );
+
+            const imageTargets = document.querySelectorAll(
+                ".about-visual, .gallery-item, .access-visual"
+            );
+
+            revealTargets.forEach((target, index) => {
+                target.classList.add("js-reveal");
+                target.style.setProperty("--reveal-delay", `${Math.min(index * 0.04, 0.24)}s`);
+            });
+
+            imageTargets.forEach((target) => {
+                target.classList.add("js-reveal-img");
+            });
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("is-visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.18,
+                    rootMargin: "0px 0px -8% 0px"
+                }
+            );
+
+            document.querySelectorAll(".js-reveal, .js-reveal-img").forEach((target) => {
+                observer.observe(target);
+            });
+        });
+
+    </script>
+
+    <!-- 幅が変わったときにメニューを強制クローズし、スムーズにアニメーションする。 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector(".nav--drawer");
+            const navLinks = document.querySelectorAll(".nav--drawer a");
+            const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+            if (!menuToggle || !nav) {
+                return;
+            }
+
+            const closeMenu = (animate = true) => {
+                if (!nav.classList.contains("is-open")) {
+                    nav.classList.remove("is-closing");
+                    return;
+                }
+
+                menuToggle.classList.remove("is-open");
+                nav.classList.remove("is-open");
+                document.body.classList.remove("menu-open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "メニューを開く");
+
+                if (!animate) {
+                    nav.classList.remove("is-closing");
+                    return;
+                }
+
+                nav.classList.add("is-closing");
+                nav.addEventListener(
+                    "transitionend",
+                    () => nav.classList.remove("is-closing"),
+                    { once: true }
+                );
+            };
+
+            const openMenu = () => {
+                nav.classList.remove("is-closing");
+                menuToggle.classList.add("is-open");
+                nav.classList.add("is-open");
+                document.body.classList.add("menu-open");
+                menuToggle.setAttribute("aria-expanded", "true");
+                menuToggle.setAttribute("aria-label", "メニューを閉じる");
+            };
+
+            menuToggle.addEventListener("click", () => {
+                if (menuToggle.classList.contains("is-open")) {
+                    closeMenu(true);
+                } else {
+                    openMenu();
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.addEventListener("click", () => closeMenu(true));
+            });
+
+            // 縮小・拡大でブレークポイントをまたぐとき — アニメなしで即閉じる
+            mobileQuery.addEventListener("change", () => closeMenu(false));
+        });
+    </script>
+
+
+    <body>
+        <header class="header">
+            <div class="header-inner">
+
+                <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <nav class="nav nav--left" aria-label="左ナビゲーション">
+                    <ul>
+                        <li><a href="#1">11111</a></li>
+                        <li><a href="#2">22222</a></li>
+                        <li><a href="#3">33333</a></li>
+                    </ul>
+                </nav>
+
+                <a href="#" class="logo">logo</a>
+
+                <nav class="nav nav--right" aria-label="右ナビゲーション">
+                    <ul>
+                        <li><a href="#4">44444</a></li>
+                        <li><a href="#5">55555</a></li>
+                        <li><a href="#6" class="btn btn-primary">66666</a></li>
+                    </ul>
+                </nav>
+<!--_________________________________________________________________________________ モバイル用nav -->
+                <nav class="nav nav--drawer" aria-label="メインナビゲーション">
+                    <ul>
+                      <li><a href="#1">11111</a></li>
+                      <li><a href="#2">22222</a></li>
+                      <li><a href="#3">33333</a></li>
+                      <li><a href="#4">44444</a></li>
+                      <li><a href="#5">55555</a></li>
+                      <li><a href="#6" class="btn btn-primary">66666</a></li>
+                    </ul>
+                  </nav>
+            </div>
+        </header>
+
+
+
+
+
+        <main>
+            <section id="hero" section class="hero" aria-labelledby="hero-title">
+                <div class="hero-media" aria-hidden="true">
+                    <img class="hero-img" width="1920" height="1280" fetchpriority="high">
+                    <div class="hero-overlay"></div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="hero-content">
+                    <h1 id="hero-title" class="hero-title">TOP</h1>
+                    <p class="hero-catch">TOP概要TOP概要TOP概要TOP概要TOP概要TOP概要</p>
+                </div>
+            </section>
+
+            <section id="1" class="section about" aria-labelledby="about-title">
+                <div class="section-inner">
+                    <h2 id="about-title" class="section-title">セクション１</h2>
+                    <p class="section-lead">セクション１の概要セクション１の概要セクション１の概要</p>
+                </div>
+            </section>
+
+            <section id="2" class="section gallery" aria-labelledby="gallery-title">
+                <div class="section-inner section-inner--wide">
+                    <h2 id="gallery-title" class="section-title">セクション２</h2>
+                    <p class="section-lead">セクション２の概要セクション２の概要セクション２の概要</p>
+                </div>
+            </section>
+
+            <section id="3" class="section menu" aria-labelledby="menu-title">
+                <div class="section-inner">
+                    <h2 id="menu-title" class="section-title">セクション３</h2>
+                    <p class="section-lead">セクション３の概要セクション３の概要セクション３の概要</p>
+            </section>
+
+            <section id="4" class="section info" aria-labelledby="info-title">
+                <div class="section-inner">
+                    <h2 id="info-title" class="section-title">セクション４</h2>
+                    <p class="section-lead">セクション４の概要セクション４の概要セクション４の概要</p>
+                </div>
+            </section>
+
+            <section id="5" class="section access" aria-labelledby="access-title">
+                <div class="section-inner">
+                    <h2 id="access-title" class="section-title">セクション５</h2>
+                    <p class="section-lead">セクション５の概要セクション５の概要セクション５の概要</p>
+                </div>
+            </section>
+
+            <section id="6" class="section reserve" aria-labelledby="reserve-title">
+                <div class="section-inner">
+                    <h2 id="reserve-title" class="section-title">セクション６予約</h2>
+                    <p class="section-lead">セクション６の概要セクション６の概要セクション６の概要</p>
+                </div>
+                </div>
+            </section>
+        </main>
+    </body>
+
+    </html>

@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".nav");
   const navLinks = document.querySelectorAll(".nav a");
-  const mobileQuery = window.matchMedia("(max-width: 767px)");
 
   if (!menuToggle || !nav) return;
 
@@ -53,9 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", () => closeMenu(true));
   });
 
-  mobileQuery.addEventListener("change", () => closeMenu(false));
-
-  // スクロールでヘッダー背景（必要なら）
   const hero = document.querySelector(".hero");
   if (header) {
     const handleScroll = () => {
