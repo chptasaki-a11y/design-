@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,109 +8,315 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="./assets/styles/reset.css">
-  <link rel="stylesheet" href="./assets/styles/style.css">
-  <script src="./assets/js/main.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles/style.css">
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const revealTargets = document.querySelectorAll(
+        ".section-title, .section-lead, .about-card, .menu-item, .info-block, .reserve-desc, .reserve-actions, .access-address, .access-station, .gallery-note, .menu-note, .about-summary"
+      );
+  
+      const imageTargets = document.querySelectorAll(
+        ".about-visual, .gallery-item, .access-visual"
+      );
+  
+      revealTargets.forEach((target, index) => {
+        target.classList.add("js-reveal");
+        target.style.setProperty("--reveal-delay", `${Math.min(index * 0.04, 0.24)}s`);
+      });
+  
+      imageTargets.forEach((target) => {
+        target.classList.add("js-reveal-img");
+      });
+  
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.18,
+          rootMargin: "0px 0px -8% 0px"
+        }
+      );
+  
+      document.querySelectorAll(".js-reveal, .js-reveal-img").forEach((target) => {
+        observer.observe(target);
+      });
+    });
+    
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuToggle = document.querySelector(".menu-toggle");
+      const nav = document.querySelector(".nav");
+      const navLinks = document.querySelectorAll(".nav a");
+  
+      if (!menuToggle || !nav) {
+        return;
+      }
+  
+      const closeMenu = () => {
+        menuToggle.classList.remove("is-open");
+        nav.classList.remove("is-open");
+        document.body.classList.remove("menu-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "メニューを開く");
+      };
+  
+      const openMenu = () => {
+        menuToggle.classList.add("is-open");
+        nav.classList.add("is-open");
+        document.body.classList.add("menu-open");
+        menuToggle.setAttribute("aria-expanded", "true");
+        menuToggle.setAttribute("aria-label", "メニューを閉じる");
+      };
+  
+      menuToggle.addEventListener("click", () => {
+        if (menuToggle.classList.contains("is-open")) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+  
+      navLinks.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+    });
+  </script>
 
 
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <a href="#" class="logo">logo</a>
-
-      <!-- ハンバーガメニュー -->
-      <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <nav class="nav" aria-label="メインナビゲーション">
-        <ul>
-          <li><a href="#1">11111</a></li>
-          <li><a href="#2">22222</a></li>
-          <li><a href="#3">33333</a></li>
-          <li><a href="#4">44444</a></li>
-          <li><a href="#5">55555</a></li>
-          <li><a href="#6" class="btn btn-primary">66666</a></li>
-        </ul>
-      </nav>
-
-
-
-
-    </div>
-  </header>
-
-
-
+    <header class="site-header">
+        <div class="header-inner">
+          <a href="#" class="logo">logo</a>
+      
+          <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+      
+          <nav class="nav" aria-label="メインナビゲーション">
+            <ul>
+              <li><a href="#about">About</a></li>
+              <li><a href="#gallery">Gallery</a></li>
+              <li><a href="#menu">Menu</a></li>
+              <li><a href="#access">Access</a></li>
+              <li><a href="#reserve">Reserve</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
 
   <main>
-    <section id="hero" section class="hero" aria-labelledby="hero-title">
+        <section id="hero" section class="hero" aria-labelledby="hero-title">
       <div class="hero-media" aria-hidden="true">
-        <img class="hero-img" width="1920" height="1280" fetchpriority="high">
+        <img
+          class="hero-img"
+          src="https://images.unsplash.com/photo-1610993412646-f8b79d287271?auto=format&fit=crop&w=1920&q=80"
+          alt=""
+          width="1920"
+          height="1280"
+          fetchpriority="high"
+        >
         <div class="hero-overlay"></div>
       </div>
-
-
-
-
-
-
-
-
       <div class="hero-content">
-        <h1 id="hero-title" class="hero-title">TOP</h1>
-        <p class="hero-catch">TOP概要TOP概要TOP概要TOP概要TOP概要TOP概要</p>
+        <p class="hero-label">Nail Studio in Omotesando</p>
+        <h1 id="hero-title" class="hero-title">Luna Fleur<br><span class="hero-title-sub">Nail Studio</span></h1>
+        <p class="hero-catch">テキストテキストテキストテキストテキストテキスト</p>
+        <a href="#reserve" class="btn btn-primary">ご予約はこちら</a>
       </div>
     </section>
 
-    <section id="1" class="section about" aria-labelledby="about-title">
+    <section id="about" class="section about" aria-labelledby="about-title">
       <div class="section-inner">
-        <h2 id="about-title" class="section-title">セクション１</h2>
-        <p class="section-lead">セクション１の概要セクション１の概要セクション１の概要</p>
+        <h2 id="about-title" class="section-title">About</h2>
+        <p class="section-lead">ABOUTの概要ABOUTの概要ABOUTの概要ABOUTの概要<br>ABOUTの概要ABOUTの概要ABOUTの概要</p>
+        <figure class="about-visual">
+          <img
+            src="https://images.unsplash.com/photo-1560066984-138d7effa3c4?auto=format&fit=crop&w=1200&q=80"
+            alt="落ち着いたサロン空間のイメージ（仮画像）"
+            width="1200"
+            height="800"
+            loading="lazy"
+          >
+        </figure>
+        <div class="about-cards">
+          <article class="about-card">
+            <span class="about-card-icon" aria-hidden="true">✿</span>
+            <h3>ニュアンスネイル</h3>
+            <p>淡い色合いと繊細なデザインで、指先に上品な華やぎを添えます。</p>
+          </article>
+          <article class="about-card">
+            <span class="about-card-icon" aria-hidden="true">✿</span>
+            <h3>オフィスネイル</h3>
+            <p>仕事のシーンにも馴染む、清潔感のある仕上がりが得意です。</p>
+          </article>
+          <article class="about-card">
+            <span class="about-card-icon" aria-hidden="true">✿</span>
+            <h3>はじめての方へ</h3>
+            <p>小さな完全予約制サロン。初めての方でも相談しやすい、落ち着いた雰囲気です。</p>
+          </article>
+        </div>
+        <p class="about-summary">
+          表参道駅から徒歩5分の小さな完全予約制サロン。ニュアンスネイルと上品なオフィスネイルが得意で、初めての方でも相談しやすい落ち着いた雰囲気です。
+        </p>
       </div>
     </section>
 
-    <section id="2" class="section gallery" aria-labelledby="gallery-title">
+    <section id="gallery" class="section gallery" aria-labelledby="gallery-title">
       <div class="section-inner section-inner--wide">
-        <h2 id="gallery-title" class="section-title">セクション２</h2>
-        <p class="section-lead">セクション２の概要セクション２の概要セクション２の概要</p>
+        <h2 id="gallery-title" class="section-title">Gallery</h2>
+        <p class="section-lead">デザインの雰囲気イメージ</p>
+        <div class="gallery-grid">
+          <figure class="gallery-item gallery-item--large">
+            <img
+              src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=80"
+              alt="ニュアンスカラーのネイルデザイン（仮画像）"
+              width="900"
+              height="1200"
+              loading="lazy"
+            >
+            <figcaption>ニュアンスネイル</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1632345031435-8727f6897d6f?auto=format&fit=crop&w=600&q=80"
+              alt="シンプルなネイルアート（仮画像）"
+              width="600"
+              height="800"
+              loading="lazy"
+            >
+            <figcaption>定額デザイン</figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img
+              src="https://images.unsplash.com/photo-1522338242992-e786a38571fd?auto=format&fit=crop&w=600&q=80"
+              alt="フレンチネイルのイメージ（仮画像）"
+              width="600"
+              height="800"
+              loading="lazy"
+            >
+            <figcaption>フレンチネイル</figcaption>
+          </figure>
+        </div>
+        <p class="gallery-note">※掲載写真はイメージ用の仮画像です。実際の施術例はInstagramでもご覧いただけます。</p>
       </div>
     </section>
 
-    <section id="3" class="section menu" aria-labelledby="menu-title">
+    <section id="menu" class="section menu" aria-labelledby="menu-title">
       <div class="section-inner">
-        <h2 id="menu-title" class="section-title">セクション３</h2>
-        <p class="section-lead">セクション３の概要セクション３の概要セクション３の概要</p>
-    </section>
-
-    <section id="4" class="section info" aria-labelledby="info-title">
-      <div class="section-inner">
-        <h2 id="info-title" class="section-title">セクション４</h2>
-        <p class="section-lead">セクション４の概要セクション４の概要セクション４の概要</p>
+        <h2 id="menu-title" class="section-title">Menu</h2>
+        <p class="section-lead">人気のメニュー例</p>
+        <dl class="menu-list">
+          <div class="menu-item">
+            <dt>ワンカラー</dt>
+            <dd><span class="price">6,600</span><span class="yen">円</span></dd>
+          </div>
+          <div class="menu-item">
+            <dt>定額デザイン</dt>
+            <dd><span class="price">8,800</span><span class="yen">円</span></dd>
+          </div>
+          <div class="menu-item">
+            <dt>フレンチネイル</dt>
+            <dd><span class="price">7,700</span><span class="yen">円</span></dd>
+          </div>
+          <div class="menu-item">
+            <dt>フットネイル</dt>
+            <dd><span class="price">8,250</span><span class="yen">円</span></dd>
+          </div>
+          <div class="menu-item">
+            <dt>オフのみ</dt>
+            <dd><span class="price">3,300</span><span class="yen">円</span></dd>
+          </div>
+        </dl>
+        <p class="menu-note">※表示価格はすべて税込です。</p>
       </div>
     </section>
 
-    <section id="5" class="section access" aria-labelledby="access-title">
+    <section id="info" class="section info" aria-labelledby="info-title">
       <div class="section-inner">
-        <h2 id="access-title" class="section-title">セクション５</h2>
-        <p class="section-lead">セクション５の概要セクション５の概要セクション５の概要</p>
+        <h2 id="info-title" class="section-title">基本情報</h2>
+        <div class="info-grid">
+          <div class="info-block">
+            <span class="info-label">平日</span>
+            <p class="info-value">11:00 – 21:00</p>
+          </div>
+          <div class="info-block">
+            <span class="info-label">土日祝</span>
+            <p class="info-value">10:00 – 19:00</p>
+          </div>
+          <div class="info-block info-block--closed">
+            <span class="info-label">定休日</span>
+            <p class="info-value">火曜日</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="6" class="section reserve" aria-labelledby="reserve-title">
+    <section id="access" class="section access" aria-labelledby="access-title">
       <div class="section-inner">
-        <h2 id="reserve-title" class="section-title">セクション６予約</h2>
-        <p class="section-lead">セクション６の概要セクション６の概要セクション６の概要</p>
+        <h2 id="access-title" class="section-title">アクセス</h2>
+        <address class="access-address">
+          〒郵便番号<br>
+          住所住所住所住所住所住所住所住所0-0-0<br>
+          ビル名0F000号室
+        </address>
+        <p class="access-station">あああ駅から徒歩0分</p>
+        <figure class="access-visual">
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80"
+            alt="表参道エリアの街並みイメージ（仮画像）"
+            width="1000"
+            height="667"
+            loading="lazy"
+          >
+        </figure>
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E7%A5%9E%E5%AE%AE%E5%89%8D3-18-7+%E3%83%AB%E3%83%9F%E3%82%A8%E3%83%BC%E3%83%AB%E8%A1%A8%E5%8F%82%E9%81%93"
+          class="btn btn-secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Googleマップで見る</a>
       </div>
+    </section>
+
+    <section id="reserve" class="section reserve" aria-labelledby="reserve-title">
+      <div class="section-inner">
+        <h2 id="reserve-title" class="section-title">お問い合わせ</h2>
+        <p class="section-lead">お電話または公式InstagramのDMにて受付しております。</p>
+        <div class="reserve-actions">
+          <a href="tel:0348297164" class="btn btn-primary btn-large">
+            <span class="btn-tel">03-4829-7164</span>
+          </a>
+          <!-- 公式InstagramアカウントURLが分かり次第、hrefを差し替えてください -->
+          <a
+            href="https://instagram.com/"
+            class="btn btn-instagram"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Instagram DMで予約</a>
+        </div>
+        <p class="reserve-note">※営業時間 平日:11:00-21:00 土日祝:10:00-19:00(火曜定休)</p>
       </div>
     </section>
   </main>
-</body>
 
+  <footer class="site-footer">
+    <p class="footer-name">Luna Fleur Nail Studio</p>
+    <p class="footer-tel">
+      <a href="#hero">TOPへ戻る</a>
+    </p>
+    <p class="footer-copy">&copy; 2026 shop name</p>
+  </footer>
+</body>
 </html>
